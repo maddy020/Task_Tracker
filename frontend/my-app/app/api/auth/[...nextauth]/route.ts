@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       try {
+        console.log("user", user);
         console.log("calling signin", user);
         const result = await query("SELECT * FROM users WHERE email=$1", [
           user.email,
@@ -54,6 +55,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token, user, account }) {
+      console.log("token", token);
       if (user) {
         token.user = {
           id: user.id || null,
@@ -67,6 +69,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
+      console.log("token", token);
       (session as any).user = token.user;
       (session as any).backendToken = token.backendToken;
       return session;
